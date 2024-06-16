@@ -40,7 +40,7 @@ export class CreateEventComponent {
       this.eventService.createEvent(eventData).subscribe(
         (response) => {
           console.log('Event created successfully', response);
-          this.router.navigate(['/calendar']); // Redirect to calendar after successful creation
+          this.router.navigate(['/dashboard']); // Redirect to calendar after successful creation
         },
         (error) => {
           console.error('Error creating event', error);
@@ -51,6 +51,6 @@ export class CreateEventComponent {
   }
 
   onCancel(): void {
-    this.router.navigate(['/calendar']); // Navigate back to calendar without creating event
+    this.router.navigate(['/dashboard']); // Navigate back to calendar without creating event
   }
 }

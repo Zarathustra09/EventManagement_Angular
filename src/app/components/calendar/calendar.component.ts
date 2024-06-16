@@ -7,6 +7,7 @@ import {FullCalendarComponent, FullCalendarModule} from '@fullcalendar/angular';
 import {NgIf} from "@angular/common";
 import {EventService} from "../../services/event.service"; // Import EventService
 import {Event} from "../../models/event.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,10 @@ export class CalendarComponent implements OnInit {
   eventsModel: any;
   @ViewChild('fullcalendar') fullcalendar?: FullCalendarComponent;
 
-  constructor(private eventService: EventService) { } // Inject EventService
+  constructor(
+    private eventService: EventService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     // need for load calendar bundle first
@@ -59,6 +63,7 @@ export class CalendarComponent implements OnInit {
   fetchEvents() {
     this.eventService.getAllEvents().subscribe((events: Event[]) => {
       this.calendarOptions!.events = events.map(event => ({
+        id: event.id?.toString(), // Ensure each event has an id
         title: event.title,
         start: event.start,
         end: event.end,
@@ -78,7 +83,8 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEventClick(arg: EventClickArg) {
-    console.log(arg);
+    // Navigate to the update-event page with the clicked event's id
+    this.router.navigate(['/update-event', arg.event.id]);
   }
 
   handleEventDragStop(arg: EventDragStopArg) {
@@ -93,15 +99,6 @@ export class CalendarComponent implements OnInit {
     };
   }
 
-  updateEvents() {
-    const nowDate = new Date();
-    const yearMonth = nowDate.getUTCFullYear() + '-' + (nowDate.getUTCMonth() + 1);
 
-    this.calendarOptions!.events = [{
-      title: 'Updated Event',
-      start: yearMonth + '-08',
-      end: yearMonth + '-10'
-    }];
-  }
 
 }

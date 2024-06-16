@@ -28,6 +28,10 @@ export class EventService {
     return this.http.get<Event[]>(this.baseUrl, { headers: this.getAuthHeaders() });
   }
 
+  getEvent(id: number): Observable<Event> {
+    return this.http.get<Event>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() });
+  }
+
   createEvent(event: Event): Observable<Event> {
     return this.http.post<Event>(this.baseUrl, event, { headers: this.getAuthHeaders() });
   }
