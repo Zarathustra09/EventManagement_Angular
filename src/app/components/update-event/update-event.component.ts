@@ -9,7 +9,7 @@ import { Event } from '../../models/event.model';
   templateUrl: './update-event.component.html',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   styleUrls: ['./update-event.component.css']
 })
@@ -45,7 +45,7 @@ export class UpdateEventComponent implements OnInit {
   loadEvent(): void {
     this.eventService.getEvent(this.eventId).subscribe(
       (event: Event) => {
-        this.eventForm.patchValue(event); // Prefill form with event data
+        this.eventForm.patchValue(event);
       },
       (error) => {
         console.error('Error loading event', error); // Handle error (e.g., display error message)
@@ -58,6 +58,7 @@ export class UpdateEventComponent implements OnInit {
       const eventData: Event = {
         ...this.eventForm.value,
         id: this.eventId // Include the id from the component property
+
       };
 
       this.eventService.updateEvent(this.eventId, eventData).subscribe(
@@ -67,6 +68,21 @@ export class UpdateEventComponent implements OnInit {
         },
         (error) => {
           console.error('Error updating event', error);
+          // Handle error (e.g., display error message)
+        }
+      );
+    }
+  }
+
+  onDelete(): void {
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.eventService.deleteEvent(this.eventId).subscribe(
+        () => {
+          console.log('Event deleted successfully');
+          this.router.navigate(['/dashboard']); // Redirect to calendar after deletion
+        },
+        (error) => {
+          console.error('Error deleting event', error);
           // Handle error (e.g., display error message)
         }
       );

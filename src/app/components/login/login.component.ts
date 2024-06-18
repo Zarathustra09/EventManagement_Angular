@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {CommonModule} from "@angular/common";
 
@@ -10,7 +10,9 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule // Add FormsModule to the imports array
+    FormsModule,
+    RouterLink,
+    // Add FormsModule to the imports array
     // Other modules
   ],
   styleUrls: ['./login.component.css']
@@ -41,6 +43,7 @@ export class LoginComponent {
         response => {
           // Store the token in browser storage or cookie
           localStorage.setItem('token', response.token);
+          localStorage.setItem('role', response.role.toString());
           // Redirect to a protected route or dashboard
           this.router.navigate(['/dashboard']);
         },
