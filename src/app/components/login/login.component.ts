@@ -44,6 +44,7 @@ export class LoginComponent {
           // Store the token in browser storage or cookie
           localStorage.setItem('token', response.token);
           localStorage.setItem('role', response.role.toString());
+          localStorage.setItem('username', response.name);
           // Redirect to a protected route or dashboard
           this.router.navigate(['/dashboard']);
         },

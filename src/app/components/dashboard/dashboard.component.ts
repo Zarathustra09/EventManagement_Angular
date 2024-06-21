@@ -1,32 +1,31 @@
-import {Component, OnInit} from '@angular/core';
-import {CalendarComponent} from "../calendar/calendar.component";
+import { Component, OnInit } from '@angular/core';
+import { EventService } from '../../services/event.service';
+import { AuthService } from '../../services/auth.service';
 import {RouterLink} from "@angular/router";
-import {EventService} from "../../services/event.service";
-import {AuthService} from "../../services/auth.service";
-
+import {CalendarComponent} from "../calendar/calendar.component";
 
 @Component({
   selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
   standalone: true,
   imports: [
-    CalendarComponent,
-    RouterLink
+    RouterLink,CalendarComponent
   ],
-
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
   eventCount: number = 0;
+  loggedInUsername: string = '';
 
   constructor(
     private eventService: EventService,
-  private authService: AuthService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.fetchEventCount();
+    console.log(localStorage.getItem('username'));
+    this.loggedInUsername = localStorage.getItem('username') || '';
   }
 
   fetchEventCount(): void {
